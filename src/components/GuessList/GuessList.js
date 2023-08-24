@@ -8,7 +8,7 @@ const GuessList = ({ guesses }) => {
       {range(NUM_OF_GUESSES_ALLOWED).map((num) => (
         <Guess
           key={num}
-          guesses={guesses}
+          value={guesses[num]?.guess}
         />
       ))}
     </div>
