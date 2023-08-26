@@ -24,7 +24,10 @@ function Game() {
 
   return (
     <>
-      <GuessList guesses={guesses} />
+      <GuessList
+        guesses={guesses}
+        answer={answer}
+      />
       <Form addGuess={addGuess} />
     </>
   )

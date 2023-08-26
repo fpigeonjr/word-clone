@@ -1,14 +1,17 @@
-import { range } from "../../utils"
+import { checkGuess } from "../../game-helpers"
 
-const Guess = ({ value }) => {
+const Guess = ({ value, answer }) => {
+  const checkedGuess = checkGuess(value, answer)
+  console.log({ checkedGuess })
+
   return (
     <p className="guess">
-      {range(5).map((num) => (
+      {checkedGuess?.map((guess, index) => (
         <span
-          key={num}
-          className="cell"
+          key={index}
+          className={`cell ${guess.status}`}
         >
-          {value ? value[num] : undefined}
+          {guess.letter}
         </span>
       ))}
     </p>
