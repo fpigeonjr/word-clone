@@ -1,13 +1,15 @@
 import React from "react"
 
+import { NUM_OF_GUESSES_ALLOWED } from "../../constants"
 import { sample } from "../../utils"
 import { WORDS } from "../../data"
 import Form from "../Form"
 import GuessList from "../GuessList"
-import Banner from "../Banner"
+import WonBanner from "../WonBanner/WonBanner"
+import LostBanner from "../LostBanner/LostBanner"
 
 // Pick a random word on every pageload.
-const GUESS_LIMIT = 6
+
 const answer = sample(WORDS)
 let isGuessCorrect = false
 // To make debugging easier, we'll log the solution in the console.
@@ -15,6 +17,8 @@ console.info({ answer })
 
 function Game() {
   const [guesses, setGuesses] = React.useState([])
+  // running, won, lost
+  const [gameStatus, setGameStatus] = React.useState("running")
 
   const addGuess = (guess) => {
     const newGuess = {
@@ -24,26 +28,25 @@ function Game() {
     const nextGuess = [...guesses, newGuess]
     setGuesses(nextGuess)
     isGuessCorrect = guess === answer
+    if (isGuessCorrect) {
+      setGameStatus("won")
+    } else if (nextGuess.length >= NUM_OF_GUESSES_ALLOWED) {
+      setGameStatus("lost")
+    }
   }
 
   return (
     <>
-      <Banner
-        isGuessCorrect={isGuessCorrect}
-        answer={answer}
-        numGuesses={guesses.length}
-        GUESS_LIMIT={GUESS_LIMIT}
-      />
       <GuessList
         guesses={guesses}
         answer={answer}
       />
       <Form
-        isGuessCorrect={isGuessCorrect}
         addGuess={addGuess}
-        numGuesses={guesses.length}
-        GUESS_LIMIT={GUESS_LIMIT}
+        gameStatus={gameStatus}
       />
+      {gameStatus === "won" && <WonBanner numGuesses={guesses.length} />}
+      {gameStatus === "lost" && <LostBanner answer={answer} />}
     </>
   )
 }

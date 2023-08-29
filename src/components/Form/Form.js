@@ -1,6 +1,6 @@
 import React from "react"
 
-const Form = ({ isGuessCorrect, addGuess, numGuesses, GUESS_LIMIT }) => {
+const Form = ({ addGuess, gameStatus }) => {
   const [guess, setGuess] = React.useState("")
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -31,7 +31,7 @@ const Form = ({ isGuessCorrect, addGuess, numGuesses, GUESS_LIMIT }) => {
         pattern="[A-Za-z]{5}"
         title="5 letter word"
         required
-        disabled={numGuesses >= GUESS_LIMIT || isGuessCorrect}
+        disabled={gameStatus !== "running"}
       />
     </form>
   )
